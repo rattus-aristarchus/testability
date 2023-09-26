@@ -4,7 +4,7 @@ from urllib.request import urlopen
 from json import load
 
 
-def weather(city):
+def weather():
     response = requests.get('https://api64.ipify.org?format=json').json()
     ip_address = response["ip"]
     url = 'https://ipinfo.io/' + ip_address + '/json'
