@@ -25,10 +25,10 @@ def get_ip():
     return response["ip"]
 
 
-def get_city():
+def get_city(ip):
     """Get user's city based on their IP"""
 
-    ip_address = get_ip()
+    ip_address = ip
     url = 'https://ipinfo.io/' + ip_address + '/json'
     response = urlopen(url)
     json = load(response)
@@ -36,4 +36,5 @@ def get_city():
 
 
 if __name__ == '__main__':
-    print(weather(get_city()))
+    print(weather(get_city(get_ip())))
+
