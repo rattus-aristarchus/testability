@@ -5,6 +5,8 @@ from json import load
 
 
 def weather(city):
+    """Return a string telling the weather in a particular city"""
+
     url = 'https://api.openweathermap.org/data/2.5/weather?q=' + \
           city + \
           '&units=metric&lang=ru&appid=79d1ca96933b0328e1c7e3e7a26cb347'
@@ -21,6 +23,7 @@ def weather(city):
 
 def get_ip():
     """Get user's IP"""
+
     response = requests.get('https://api64.ipify.org?format=json').json()
     return response["ip"]
 
