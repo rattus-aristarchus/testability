@@ -4,6 +4,10 @@ from urllib.request import urlopen
 from json import load
 
 
+def run():
+    print(weather(get_city(get_ip())))
+
+
 def weather(city):
     """Return a string telling the weather in a particular city"""
 
@@ -39,5 +43,5 @@ def get_city(ip):
 
 
 if __name__ == '__main__':
-    print(weather(get_city(get_ip())))
+    run()
 
