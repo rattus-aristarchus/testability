@@ -5,11 +5,9 @@ from json import load
 
 
 def run():
-    print(weather(get_city(get_ip())))
+    """Return a string telling the local weather"""
 
-
-def weather(city):
-    """Return a string telling the weather in a particular city"""
+    city = get_city()
 
     url = 'https://api.openweathermap.org/data/2.5/weather?q=' + \
           city + \
@@ -25,6 +23,16 @@ def weather(city):
     return msg
 
 
+def get_city():
+    """Get user's city based on their IP"""
+
+    ip_address = get_ip()
+    url = 'https://ipinfo.io/' + ip_address + '/json'
+    response = urlopen(url)
+    json = load(response)
+    return json["city"]
+
+
 def get_ip():
     """Get user's IP"""
 
@@ -32,16 +40,5 @@ def get_ip():
     return response["ip"]
 
 
-def get_city(ip):
-    """Get user's city based on their IP"""
-
-    ip_address = ip
-    url = 'https://ipinfo.io/' + ip_address + '/json'
-    response = urlopen(url)
-    json = load(response)
-    return json["city"]
-
-
 if __name__ == '__main__':
     run()
-
