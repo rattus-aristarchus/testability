@@ -4,15 +4,37 @@ import pytest
 import ipaddress
 
 
+IP = "92.100.165.4"
+CITY = "Saint Petersburg"
+WRONG_CITY = "Not a city name"
+
+
+def ip_stub():
+    return IP
+
+
+def city_stub(ip):
+    return CITY 
+
+
 def test_weather():
+
+    main.run(
+        ip_stub,
+        city_stub,
+        main.weather_openweathermap
+    )
+
+
+def test_openweathermap():
     with pytest.raises(KeyError):
-        main.weather("Not a city name")
+        main.weather_openweathermap(WRONG_CITY)
 
 
-def test_city():
-    ip = "92.100.165.4"
-    assert main.get_city(ip) == "Saint Petersburg"
+def test_ipinfo():
+    ip = IP
+    assert main.city_ipinfo(ip) == CITY
 
 
-def test_ip():
-    ipaddress.ip_address(main.get_ip())
+def test_ipify():
+    ipaddress.ip_address(main.ip_ipify())
