@@ -7,14 +7,14 @@ from json import load
 OPENWEATHERMAP_APPID = "79d1ca96933b0328e1c7e3e7a26cb347"
 
 
-def run():
+def run(get_ip, get_city, get_weather):
     ip = get_ip()
     city = get_city(ip)
     weather = get_weather(city)
     print(weather)
 
 
-def get_weather(city):
+def weather_openweathermap(city):
     """Return a string telling the weather in a particular city"""
 
     url = 'https://api.openweathermap.org/data/2.5/weather?q=' + \
@@ -32,7 +32,7 @@ def get_weather(city):
     return msg
 
 
-def get_city(ip):
+def city_ipinfo(ip):
     """Get user's city based on their IP"""
 
     ip_address = ip
@@ -42,7 +42,7 @@ def get_city(ip):
     return json["city"]
 
 
-def get_ip():
+def ip_ipify():
     """Get user's IP"""
 
     response = requests.get('https://api64.ipify.org?format=json').json()
@@ -50,4 +50,4 @@ def get_ip():
 
 
 if __name__ == '__main__':
-    run()
+    run(ip_ipify, city_ipinfo, weather_openweathermap)
