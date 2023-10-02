@@ -4,7 +4,14 @@ from urllib.request import urlopen
 from json import load
 
 
-def weather(city):
+def run():
+    ip = get_ip()
+    city = get_city(ip)
+    weather = get_weather(city)
+    print(weather)
+
+
+def get_weather(city):
     """Return a string telling the weather in a particular city"""
 
     url = 'https://api.openweathermap.org/data/2.5/weather?q=' + \
@@ -21,13 +28,6 @@ def weather(city):
     return msg
 
 
-def get_ip():
-    """Get user's IP"""
-
-    response = requests.get('https://api64.ipify.org?format=json').json()
-    return response["ip"]
-
-
 def get_city(ip):
     """Get user's city based on their IP"""
 
@@ -38,6 +38,12 @@ def get_city(ip):
     return json["city"]
 
 
-if __name__ == '__main__':
-    print(weather(get_city(get_ip())))
+def get_ip():
+    """Get user's IP"""
 
+    response = requests.get('https://api64.ipify.org?format=json').json()
+    return response["ip"]
+
+
+if __name__ == '__main__':
+    run()
