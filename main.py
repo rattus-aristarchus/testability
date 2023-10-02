@@ -1,7 +1,6 @@
 
 import requests
-from urllib.request import urlopen
-from json import load
+import city
 
 
 OPENWEATHERMAP_APPID = "79d1ca96933b0328e1c7e3e7a26cb347"
@@ -32,16 +31,6 @@ def weather_openweathermap(city):
     return msg
 
 
-def city_ipinfo(ip):
-    """Get user's city based on their IP"""
-
-    ip_address = ip
-    url = 'https://ipinfo.io/' + ip_address + '/json'
-    response = urlopen(url)
-    json = load(response)
-    return json["city"]
-
-
 def ip_ipify():
     """Get user's IP"""
 
@@ -50,4 +39,4 @@ def ip_ipify():
 
 
 if __name__ == '__main__':
-    run(ip_ipify, city_ipinfo, weather_openweathermap)
+    run(ip_ipify, city.geolocationdb, weather_openweathermap)

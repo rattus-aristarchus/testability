@@ -1,11 +1,11 @@
 
 import main
+import city
 import pytest
 import ipaddress
 
-
 IP = "92.100.165.4"
-CITY = "Saint Petersburg"
+CITY = ["Saint Petersburg", "St Petersburg"]
 WRONG_CITY = "Not a city name"
 
 
@@ -32,8 +32,11 @@ def test_openweathermap():
 
 
 def test_ipinfo():
-    ip = IP
-    assert main.city_ipinfo(ip) == CITY
+    assert city.ipinfo(IP) in CITY
+
+
+def test_geolocationdb():
+    assert city.geolocationdb(IP) in CITY
 
 
 def test_ipify():
