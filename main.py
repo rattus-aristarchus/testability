@@ -2,19 +2,24 @@
 import requests
 from urllib.request import urlopen
 from json import load
+from typing import Callable
 
 
 OPENWEATHERMAP_APPID = "79d1ca96933b0328e1c7e3e7a26cb347"
 
 
-def run(get_ip, get_city, get_weather):
+def run(get_ip: Callable[[], str],
+        get_city: Callable[[str], str],
+        get_weather: Callable[[str], None]):
+    """Prints current weather at user's location."""
+
     ip = get_ip()
     city = get_city(ip)
     weather = get_weather(city)
     print(weather)
 
 
-def weather_openweathermap(city):
+def weather_openweathermap(city: str):
     """Return a string telling the weather in a particular city"""
 
     url = 'https://api.openweathermap.org/data/2.5/weather?q=' + \
@@ -32,7 +37,7 @@ def weather_openweathermap(city):
     return msg
 
 
-def city_ipinfo(ip):
+def city_ipinfo(ip: str):
     """Get user's city based on their IP"""
 
     ip_address = ip
