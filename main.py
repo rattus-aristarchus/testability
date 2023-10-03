@@ -10,7 +10,7 @@ OPENWEATHERMAP_APPID = "79d1ca96933b0328e1c7e3e7a26cb347"
 
 def run(get_ip: Callable[[], str],
         get_city: Callable[[str], str],
-        get_weather: Callable[[str], None]):
+        get_weather: Callable[[str], str]):
     """Prints current weather at user's location."""
 
     ip = get_ip()
