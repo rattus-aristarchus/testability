@@ -5,7 +5,7 @@ from urllib.request import urlopen
 from json import load
 
 
-def ipinfo(ip):
+def ipinfo(ip: str):
     ip_address = ip
     url = 'https://ipinfo.io/' + ip_address + '/json'
     response = urlopen(url)
@@ -13,7 +13,7 @@ def ipinfo(ip):
     return json["city"]
 
 
-def geolocationdb(ip):
+def geolocationdb(ip: str):
     response = requests.get(
         "https://geolocation-db.com/json/" + \
         ip + \
