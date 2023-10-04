@@ -7,7 +7,7 @@ from json import load
 OPENWEATHERMAP_APPID = "79d1ca96933b0328e1c7e3e7a26cb347"
 
 
-def run():
+def local_weather():
     """Return a string telling the local weather"""
 
     city = get_city()
@@ -16,9 +16,7 @@ def run():
           city + \
           '&units=metric&lang=ru&appid=' + \
           OPENWEATHERMAP_APPID
-
     weather_data = requests.get(url).json()
-
     temperature = round(weather_data['main']['temp'])
     temperature_feels = round(weather_data['main']['feels_like'])
 
@@ -32,17 +30,17 @@ def get_city():
 
     ip_address = get_ip()
     url = 'https://ipinfo.io/' + ip_address + '/json'
-    response = urlopen(url)
-    json = load(response)
+    json = load(urlopen(url))
     return json["city"]
 
 
 def get_ip():
     """Get user's IP"""
 
-    response = requests.get('https://api64.ipify.org?format=json').json()
+    url = 'https://api64.ipify.org?format=json'
+    response = requests.get(url).json()
     return response["ip"]
 
 
 if __name__ == '__main__':
-    run()
+    print(local_weather())
