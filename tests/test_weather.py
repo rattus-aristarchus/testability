@@ -11,8 +11,8 @@ def test_weather():
 
 def test_city():
     ip = "92.100.165.4"
-    assert main.get_city(ip) == "Saint Petersburg"
+    assert main.fetch_city(ip) == "Saint Petersburg"
 
 
 def test_ip():
-    ipaddress.ip_address(main.get_ip())
+    ipaddress.ip_address(main.fetch_ip())

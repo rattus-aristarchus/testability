@@ -1,29 +1,25 @@
 
 import requests
-from urllib.request import urlopen
-from json import load
 
 
 OPENWEATHERMAP_APPID = "79d1ca96933b0328e1c7e3e7a26cb347"
 
 
 def run():
-    ip = get_ip()
-    city = get_city(ip)
-    weather = get_weather(city)
+    ip = fetch_ip()
+    city = fetch_city(ip)
+    weather = fetch_local_weather(city)
     print(weather)
 
 
-def get_weather(city):
+def fetch_local_weather(city):
     """Return a string telling the weather in a particular city"""
 
     url = 'https://api.openweathermap.org/data/2.5/weather?q=' + \
           city + \
           '&units=metric&lang=ru&appid=' + \
           OPENWEATHERMAP_APPID
-
     weather_data = requests.get(url).json()
-
     temperature = round(weather_data['main']['temp'])
     temperature_feels = round(weather_data['main']['feels_like'])
 
@@ -32,20 +28,20 @@ def get_weather(city):
     return msg
 
 
-def get_city(ip):
+def fetch_city(ip):
     """Get user's city based on their IP"""
 
     ip_address = ip
     url = 'https://ipinfo.io/' + ip_address + '/json'
-    response = urlopen(url)
-    json = load(response)
-    return json["city"]
+    response = requests.get(url).json()
+    return response["city"]
 
 
-def get_ip():
+def fetch_ip():
     """Get user's IP"""
 
-    response = requests.get('https://api64.ipify.org?format=json').json()
+    url = 'https://api64.ipify.org?format=json'
+    response = requests.get(url).json()
     return response["ip"]
 
 
