@@ -30,8 +30,8 @@ def get_city():
 
     ip_address = get_ip()
     url = 'https://ipinfo.io/' + ip_address + '/json'
-    json = load(urlopen(url))
-    return json["city"]
+    response = requests.get(url).json()
+    return response["city"]
 
 
 def get_ip():
