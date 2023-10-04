@@ -31,8 +31,7 @@ def fetch_local_weather(city):
 def fetch_city(ip):
     """Get user's city based on their IP"""
 
-    ip_address = ip
-    url = 'https://ipinfo.io/' + ip_address + '/json'
+    url = 'https://ipinfo.io/' + ip + '/json'
     response = requests.get(url).json()
     return response["city"]
 
