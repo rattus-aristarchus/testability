@@ -1,7 +1,5 @@
 
 import requests
-from urllib.request import urlopen
-from json import load
 
 
 OPENWEATHERMAP_APPID = "79d1ca96933b0328e1c7e3e7a26cb347"
@@ -15,7 +13,7 @@ def local_weather():
 
     # Using the IP, determine the city
     url = 'https://ipinfo.io/' + ip_address + '/json'
-    response = load(urlopen(url))
+    response = requests.get(url).json()
     city = response["city"]
 
     # Finally, hit up a weather service for weather in that city
