@@ -25,9 +25,7 @@ def weather_openweathermap(city: str):
           city + \
           '&units=metric&lang=ru&appid=' + \
           OPENWEATHERMAP_APPID
-
     weather_data = requests.get(url).json()
-
     temperature = round(weather_data['main']['temp'])
     temperature_feels = round(weather_data['main']['feels_like'])
 
@@ -39,7 +37,8 @@ def weather_openweathermap(city: str):
 def ip_ipify():
     """Get user's IP"""
 
-    response = requests.get('https://api64.ipify.org?format=json').json()
+    url = 'https://api64.ipify.org?format=json'
+    response = requests.get(url).json()
     return response["ip"]
 
 

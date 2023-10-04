@@ -1,22 +1,17 @@
 """Get user's city based on their IP"""
 
 import requests
-from urllib.request import urlopen
-from json import load
 
 
 def ipinfo(ip: str):
-    ip_address = ip
-    url = 'https://ipinfo.io/' + ip_address + '/json'
-    response = urlopen(url)
-    json = load(response)
-    return json["city"]
+    url = 'https://ipinfo.io/' + ip + '/json'
+    response = requests.get(url).json()
+    return response["city"]
 
 
 def geolocationdb(ip: str):
-    response = requests.get(
-        "https://geolocation-db.com/json/" + \
+    url =  "https://geolocation-db.com/json/" + \
         ip + \
         "&position=true"
-    ).json()
+    response = requests.get(url).json()
     return response["city"]
