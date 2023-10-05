@@ -6,14 +6,14 @@ from typing import Callable
 OPENWEATHERMAP_APPID = "79d1ca96933b0328e1c7e3e7a26cb347"
 
 
-def run(get_ip: Callable[[], str],
-        get_city: Callable[[str], str],
-        get_weather: Callable[[str], str]):
+def run(fetch_ip: Callable[[], str],
+        fetch_city: Callable[[str], str],
+        fetch_weather: Callable[[str], str]):
     """Prints current weather at user's location."""
 
-    ip = get_ip()
-    city = get_city(ip)
-    weather = get_weather(city)
+    ip = fetch_ip()
+    city = fetch_city(ip)
+    weather = fetch_weather(city)
     print(weather)
 
 
