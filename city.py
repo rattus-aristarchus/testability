@@ -10,8 +10,7 @@ def ipinfo(ip: str):
 
 
 def geolocationdb(ip: str):
-    url =  "https://geolocation-db.com/json/" + \
-        ip + \
-        "&position=true"
+    url = 'https://geolocation-db.com/json/' + \
+          ip + "&position=true"
     response = requests.get(url).json()
     return response["city"]

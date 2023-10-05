@@ -3,19 +3,18 @@ from typing import Callable
 import requests
 import city as city_provider
 
-
 OPENWEATHERMAP_APPID = "79d1ca96933b0328e1c7e3e7a26cb347"
 
 
-def run(get_ip: Callable[[], str],
-        get_city: Callable[[str], str],
-        get_weather: Callable[[str], str]):
+def tell_weather(get_ip: Callable[[], str],
+                 get_city: Callable[[str], str],
+                 get_weather: Callable[[str], str]):
     """Prints current weather at user's location."""
 
     ip = get_ip()
     city = get_city(ip)
     weather = get_weather(city)
-    print(weather)
+    return weather
 
 
 def weather_openweathermap(city: str):
@@ -43,4 +42,6 @@ def ip_ipify():
 
 
 if __name__ == '__main__':
-    run(ip_ipify, city_provider.geolocationdb, weather_openweathermap)
+    print(tell_weather(ip_ipify,
+                       city_provider.geolocationdb,
+                       weather_openweathermap))

@@ -14,8 +14,14 @@ def ip_stub():
 
 
 def city_stub(ip):
-    return CITY 
+    return CITY[0]
 
+
+def weather_stub(city):
+    if city in CITY:
+        return WEATHER
+    else:
+        return None
 
 def test_weather():
 
