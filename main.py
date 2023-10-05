@@ -1,20 +1,18 @@
-
 import requests
 from typing import Callable
-
 
 OPENWEATHERMAP_APPID = "79d1ca96933b0328e1c7e3e7a26cb347"
 
 
-def run(fetch_ip: Callable[[], str],
-        fetch_city: Callable[[str], str],
-        fetch_weather: Callable[[str], str]):
+def tell_weather(fetch_ip: Callable[[], str],
+                 fetch_city: Callable[[str], str],
+                 fetch_weather: Callable[[str], str]):
     """Prints current weather at user's location."""
 
     ip = fetch_ip()
     city = fetch_city(ip)
     weather = fetch_weather(city)
-    print(weather)
+    return weather
 
 
 def weather_openweathermap(city: str):
@@ -50,4 +48,4 @@ def ip_ipify():
 
 
 if __name__ == '__main__':
-    run(ip_ipify, city_ipinfo, weather_openweathermap)
+    print(tell_weather(ip_ipify, city_ipinfo, weather_openweathermap))

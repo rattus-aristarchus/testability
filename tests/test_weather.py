@@ -7,6 +7,8 @@ import ipaddress
 IP = "92.100.165.4"
 CITY = "Saint Petersburg"
 WRONG_CITY = "Not a city name"
+WEATHER = "Temperature in Saint Petersburg: 15 °C\n" + \
+          "Feels like 10 °C"
 
 
 def ip_stub():
@@ -17,13 +19,22 @@ def city_stub(ip):
     return CITY 
 
 
+def weather_stub(city):
+    if city == CITY:
+        return WEATHER
+    else:
+        return None
+
+
 def test_weather():
 
-    main.run(
+    weather = main.tell_weather(
         ip_stub,
         city_stub,
-        main.weather_openweathermap
+        weather_stub,
     )
+
+    assert weather == WEATHER
 
 
 def test_openweathermap():
