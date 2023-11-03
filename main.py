@@ -27,8 +27,8 @@ def local_weather():
 
     msg = (f"Temperature in {city}: {str(temperature)} °C\n"
            f"Feels like {str(temperature_feels)} °C")
-    return msg
+    print(msg)
 
 
 if __name__ == '__main__':
-    print(local_weather())
+    local_weather()
