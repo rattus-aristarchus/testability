@@ -4,7 +4,7 @@ OPENWEATHERMAP_APPID = "79d1ca96933b0328e1c7e3e7a26cb347"
 
 
 def fetch_ip():
-    """Get user's IP"""
+    """Get user's IP from ipify"""
 
     url = 'https://api64.ipify.org?format=json'
     response = requests.get(url).json()
@@ -12,7 +12,7 @@ def fetch_ip():
 
 
 def fetch_city(ip):
-    """Get user's city based on their IP"""
+    """Get user's city based on their IP from ipinfo"""
 
     url = 'https://ipinfo.io/' + ip + '/json'
     response = requests.get(url).json()
@@ -20,7 +20,7 @@ def fetch_city(ip):
 
 
 def fetch_local_weather(city):
-    """Get the weather in a particular city"""
+    """Get the weather in a particular city from openweathermap"""
 
     url = 'https://api.openweathermap.org/data/2.5/weather?q=' + \
           city + \

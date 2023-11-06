@@ -16,5 +16,7 @@ def read_measurements():
 
 
 def write_measurements(measurements):
+    """Write all measurements to disk as an .yml file"""
+
     with open(MEASUREMENTS, "w") as file:
         yaml.dump(measurements, file)
