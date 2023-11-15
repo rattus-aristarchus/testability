@@ -1,47 +1,29 @@
 
-import requests
+import datetime
 
-
-OPENWEATHERMAP_APPID = "79d1ca96933b0328e1c7e3e7a26cb347"
+import logic
+import web
+import persistence
 
 
 def run():
-    ip = fetch_ip()
-    city = fetch_city(ip)
-    weather = fetch_local_weather(city)
-    print(weather)
+    measurement = take_measurement()
+    history = persistence.read_history()
+    last_measurement = logic.get_last_measurement(history)
+    history = logic.update_history(history, measurement)
+    persistence.write_history(history)
+    message = logic.form_message(measurement, last_measurement)
+    print(message)
 
 
-def fetch_local_weather(city):
-    """Return a string telling the weather in a particular city"""
-
-    url = 'https://api.openweathermap.org/data/2.5/weather?q=' + \
-          city + \
-          '&units=metric&lang=ru&appid=' + \
-          OPENWEATHERMAP_APPID
-    weather_data = requests.get(url).json()
-    temperature = round(weather_data['main']['temp'])
-    temperature_feels = round(weather_data['main']['feels_like'])
-
-    msg = (f"Temperature in {city}: {str(temperature)} °C\n"
-           f"Feels like {str(temperature_feels)} °C")
-    return msg
-
-
-def fetch_city(ip):
-    """Get user's city based on their IP"""
-
-    url = 'https://ipinfo.io/' + ip + '/json'
-    response = requests.get(url).json()
-    return response["city"]
-
-
-def fetch_ip():
-    """Get user's IP"""
-
-    url = 'https://api64.ipify.org?format=json'
-    response = requests.get(url).json()
-    return response["ip"]
+def take_measurement():
+    ip = web.fetch_ip()
+    city = web.fetch_city(ip)
+    data = web.fetch_local_weather(city)
+    temp = logic.get_temperature(data)
+    temp_feels = logic.get_temperature_feels(data)
+    date = datetime.datetime.now().date()
+    return logic.Measurement(city, date, temp, temp_feels)
 
 
 if __name__ == '__main__':

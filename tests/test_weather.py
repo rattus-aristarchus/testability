@@ -1,23 +1,28 @@
 
-import main
+import web
+import persistence
+import logic
 
 import pytest
 import ipaddress
 
 
 CITY = ["Saint Petersburg", "St Petersburg", "Strel'na"]
+IP = "92.100.165.4"
 
 
 def test_weather():
     with pytest.raises(KeyError):
-        main.fetch_local_weather("Not a city name")
+        web.fetch_local_weather("Not a city name")
 
 
 def test_city():
-    ip = "92.100.165.4"
-    assert main.fetch_city(ip) in CITY
+    assert web.fetch_city(IP) in CITY
 
 
 def test_ip():
-    ip = main.fetch_ip()
-    ipaddress.ip_address(ip)
+    ip = web.fetch_ip()
+    try:
+        ipaddress.ip_address(ip)
+    except ValueError:
+        pytest.fail(f"{ip} is not a well-formed IP address")
