@@ -30,34 +30,30 @@ def local_weather():
     temperature = round(weather_data['main']['temp'])
     temperature_feels = round(weather_data['main']['feels_like'])
 
-    # If measurements have already been taken, compare them to current results
-    measurements = []
-    diff = None
-    diff_feels = None
-    measure_date = None
+    # If past measurements have already been taken, compare them to current results
+    history = []
     if os.path.exists(MEASUREMENTS):
-        measurements = yaml.safe_load(open(MEASUREMENTS, "r"))
-        last_temp = measurements[-1]["temp"]
-        last_feels = measurements[-1]["feels"]
+        history = yaml.safe_load(open(MEASUREMENTS, "r"))
+        last_date = history[-1]["date"]
+        last_temp = history[-1]["temp"]
+        last_feels = history[-1]["feels"]
         diff = temperature - last_temp
         diff_feels = temperature_feels - last_feels
-        measure_date = measurements[-1]["date"]
 
     # Write down the current result
     with open(MEASUREMENTS, "w") as file:
-        record = {"date": datetime.datetime.now().date(),
+        record = {"city": city,
+                  "date": datetime.datetime.now().date(),
                   "temp": temperature,
                   "feels": temperature_feels}
-        measurements.append(record)
-        yaml.dump(measurements, file)
+        history.append(record)
+        yaml.dump(history, file)
 
     # Print the result
     msg = (f"Temperature in {city}: {str(temperature)} °C"
            f"\nFeels like {str(temperature_feels)} °C")
-    if (diff is not None and
-            diff_feels is not None and
-            measure_date is not None):
-        msg += (f"\nLast measurement taken on {measure_date}"
+    if len(history) > 1:
+        msg += (f"\nLast measurement taken on {last_date}"
                 f"\nDifference since then - {str(diff)} (feels {str(diff_feels)})")
     print(msg)
 
