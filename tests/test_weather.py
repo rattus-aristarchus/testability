@@ -2,7 +2,7 @@ import os
 import pytest
 import ipaddress
 
-import web
+from testability import web
 from tests.conftest import CITY_NAMES, NONEXISTENT_CITY
 
 
