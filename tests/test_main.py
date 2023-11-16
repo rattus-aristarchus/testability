@@ -1,14 +1,9 @@
 import os
-import datetime
 
-import pytest
-
-import logic
-import main
+from testability import main, logic
 from tests.conftest import (CITY_NAMES,
                             WEATHER_DATA,
-                            DATE, TEMP,
-                            FEELS, HISTORY,
+                            HISTORY,
                             MESSAGE)
 
 
