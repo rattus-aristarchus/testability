@@ -1,23 +1,18 @@
-
-import web
-import persistence
-import logic
-
+import os
 import pytest
 import ipaddress
 
+import web
+from tests.conftest import CITY_NAMES, NONEXISTENT_CITY
 
-CITY = ["Saint Petersburg", "St Petersburg", "Strel'na"]
-IP = "92.100.165.4"
 
-
-def test_weather():
-    with pytest.raises(KeyError):
-        web.fetch_local_weather("Not a city name")
+def test_openweathermap():
+    response = web.fetch_local_weather(NONEXISTENT_CITY)
+    assert response["cod"] == "404"
 
 
 def test_city():
-    assert web.fetch_city(IP) in CITY
+    assert web.fetch_city(os.getenv("IP")) in CITY_NAMES
 
 
 def test_ip():

@@ -10,20 +10,26 @@ class Measurement:
     temp: int
     feels: int
 
+    def __eq__(self, other):
+        if not isinstance(other, Measurement):
+            return False
+        if (self.city == other.city and
+                self.date == other.date and
+                self.temp == other.temp and
+                self.feels == other.feels):
+            return True
+        else:
+            return False
 
-def get_temperature(weather_data):
-    """Extract temperature from weather data"""
 
-    return round(weather_data['main']['temp'])
-
-
-def get_temperature_feels(weather_data):
-    """Extract how temperature feels from weather data"""
-
-    return round(weather_data['main']['feels_like'])
+def make_measurement(city, weather_data):
+    temp = round(weather_data['main']['temp'])
+    temp_feels = round(weather_data['main']['feels_like'])
+    date = datetime.datetime.now().date()
+    return Measurement(city, date, temp, temp_feels)
 
 
-def get_last_measurement(history):
+def extract_last_measurement(history):
     """Extract last measurements from those stored on the drive"""
 
     measurement = None
