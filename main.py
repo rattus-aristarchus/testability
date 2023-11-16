@@ -1,55 +1,55 @@
 from typing import Callable
-from dataclasses import dataclass
-import datetime
 
 import logic
+from logic import Measurement
 import persistence
 import web
-
-
-@dataclass
-class Measurement:
-
-    ip: str
-    city: str
-    date: datetime.date
-    temperature: int
-    temperature_feels: int
 
 
 def run():
     measurement = take_measurement(web.ip_ipify,
                                    web.city_ipinfo,
-                                   web.weather_openweathermap)
-    tell_weather(
-                 persistence.read_measurements,
-                 persistence.write_measurements)
+                                   web.weather_openweathermap,
+                                   logic.make_measurement)
+    last_measurement = io(measurement,
+                          persistence.read_history,
+                          logic.extract_last_measurement,
+                          logic.update_history,
+                          persistence.write_history)
+    output(measurement,
+           last_measurement,
+           logic.form_message,
+           print)
 
 
 def take_measurement(fetch_ip: Callable[[], str],
                      fetch_city: Callable[[str], str],
-                     fetch_weather: Callable[[str], dict]):
+                     fetch_weather: Callable[[str], dict],
+                     make_measurement: Callable[[str, dict], Measurement]):
     ip = fetch_ip()
     city = fetch_city(ip)
     data = fetch_weather(city)
-    temp = logic.get_temperature(data)
-    temp_feels = logic.get_temperature_feels(data)
-    date = datetime.datetime.now().date()
-    return Measurement(ip, city, date, temp, temp_feels)
+    return make_measurement(city, data)
 
 
-def tell_weather(
-                 read_measurements: Callable[[], list],
-                 write_measurements: Callable[[list], None]):
-    """Prints current weather at user's location."""
+def io(measurement: Measurement,
+       read_history: Callable[[], list],
+       extract_last_measurement: Callable[[list], Measurement],
+       update_history: Callable[[list, Measurement], list],
+       write_history: Callable[[list], None]):
+    history = read_history()
+    last_measurement = extract_last_measurement(history)
+    history = update_history(history, measurement)
+    write_history(history)
+    return last_measurement
 
-    old_measurements = read_measurements()
-    date, last_temp, last_feels = logic.get_last_measurement(old_measurements)
-    new_measurements = logic.update_measurements(temp, temp_feels, old_measurements)
-    write_measurements(new_measurements)
-    diff, diff_feels = logic.calc_diff(temp, temp_feels, last_temp, last_feels)
-    message = logic.form_message(city, temp, temp_feels, diff, diff_feels, date)
-    print(message)
+
+def output(measurement: Measurement,
+           last_measurement: Measurement,
+           form_message: Callable[[Measurement, Measurement], str],
+           send_message: Callable[[str], None]):
+    message = form_message(measurement, last_measurement)
+    send_message(message)
 
 
 if __name__ == '__main__':
