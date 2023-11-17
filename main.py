@@ -21,7 +21,7 @@ def local_weather():
     response = requests.get(url).json()
     city = response["city"]
 
-    # Finally, hit up a weather service for weather in that city
+    # Hit up a weather service for weather in that city
     url = 'https://api.openweathermap.org/data/2.5/weather?q=' + \
           city + \
           '&units=metric&lang=ru&appid=' + \
@@ -52,7 +52,7 @@ def local_weather():
     # Print the result
     msg = (f"Temperature in {city}: {str(temperature)} °C"
            f"\nFeels like {str(temperature_feels)} °C")
-    if len(history) > 1:
+    if len(history) > 0:
         msg += (f"\nLast measurement taken on {last_date}"
                 f"\nDifference since then - {str(diff)} (feels {str(diff_feels)})")
     print(msg)
