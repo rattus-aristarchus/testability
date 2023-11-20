@@ -12,6 +12,8 @@ class Measurement:
 
 
 def make_measurement(city, weather_data):
+    """Generate a measurement object"""
+
     temp = round(weather_data['main']['temp'])
     temp_feels = round(weather_data['main']['feels_like'])
     date = datetime.datetime.now().date()
@@ -34,6 +36,8 @@ def extract_last_measurement(history, city):
 
 
 def update_history(history, new_measurement):
+    """Add the latest measurement to the previous ones"""
+
     record = {"city": new_measurement.city,
               "date": new_measurement.date,
               "temp": new_measurement.temp,

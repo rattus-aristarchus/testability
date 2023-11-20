@@ -14,10 +14,11 @@ def run():
 
 
 def take_measurement():
+    """Request data on current weather and generate a measurement object"""
     ip = web.fetch_ip()
     city = web.fetch_city(ip)
     data = web.fetch_local_weather(city)
-    return  logic.make_measurement(city, data)
+    return logic.make_measurement(city, data)
 
 
 if __name__ == '__main__':
