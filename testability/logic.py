@@ -10,17 +10,6 @@ class Measurement:
     temp: int
     feels: int
 
-    def __eq__(self, other):
-        if not isinstance(other, Measurement):
-            return False
-        if (self.city == other.city and
-                self.date == other.date and
-                self.temp == other.temp and
-                self.feels == other.feels):
-            return True
-        else:
-            return False
-
 
 def make_measurement(city, weather_data):
     temp = round(weather_data['main']['temp'])
