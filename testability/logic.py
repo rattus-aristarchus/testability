@@ -29,15 +29,18 @@ def make_measurement(city, weather_data):
     return Measurement(city, date, temp, temp_feels)
 
 
-def extract_last_measurement(history):
+def extract_last_measurement(history, city):
     """Extract last measurements from those stored on the drive"""
 
     measurement = None
-    if history and len(history) > 0:
-        measurement = Measurement(city=history[-1]["city"],
-                                  date=history[-1]["date"],
-                                  temp=history[-1]["temp"],
-                                  feels=history[-1]["feels"])
+    if history is not None:
+        for record in reversed(history):
+            if record["city"] == city:
+                measurement = Measurement(city=record["city"],
+                                          date=record["date"],
+                                          temp=record["temp"],
+                                          feels=record["feels"])
+                break
     return measurement
 
 

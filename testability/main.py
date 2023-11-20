@@ -34,11 +34,11 @@ def take_measurement(fetch_ip: Callable[[], str],
 
 def io(measurement: Measurement,
        read_history: Callable[[], list],
-       extract_last_measurement: Callable[[list], Measurement],
+       extract_last_measurement: Callable[[list, str], Measurement],
        update_history: Callable[[list, Measurement], list],
        write_history: Callable[[list], None]):
     history = read_history()
-    last_measurement = extract_last_measurement(history)
+    last_measurement = extract_last_measurement(history, measurement.city)
     history = update_history(history, measurement)
     write_history(history)
     return last_measurement
