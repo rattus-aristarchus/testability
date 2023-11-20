@@ -1,9 +1,9 @@
 from typing import Callable
 
-import logic
-from logic import Measurement
-import persistence
-import web
+import testability.logic as logic
+from testability.logic import Measurement
+import testability.persistence as persistence
+import testability.web as web
 
 
 def run():
