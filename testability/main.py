@@ -6,7 +6,7 @@ import persistence
 def run():
     measurement = take_measurement()
     history = persistence.read_history()
-    last_measurement = logic.extract_last_measurement(history)
+    last_measurement = logic.extract_last_measurement(history, measurement.city)
     history = logic.update_history(history, measurement)
     persistence.write_history(history)
     message = logic.form_message(measurement, last_measurement)
