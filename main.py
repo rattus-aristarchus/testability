@@ -31,14 +31,19 @@ def local_weather():
     temperature_feels = round(weather_data['main']['feels_like'])
 
     # If past measurements have already been taken, compare them to current results
+    has_previous = False
     history = []
     if os.path.exists(MEASUREMENTS):
         history = yaml.safe_load(open(MEASUREMENTS, "r"))
-        last_date = history[-1]["date"]
-        last_temp = history[-1]["temp"]
-        last_feels = history[-1]["feels"]
-        diff = temperature - last_temp
-        diff_feels = temperature_feels - last_feels
+        for record in reversed(history):
+            if record["city"] == city:
+                has_previous = True
+                last_date = record["date"]
+                last_temp = record["temp"]
+                last_feels = record["feels"]
+                diff = temperature - last_temp
+                diff_feels = temperature_feels - last_feels
+                break
 
     # Write down the current result
     with open(MEASUREMENTS, "w") as file:
@@ -52,9 +57,9 @@ def local_weather():
     # Print the result
     msg = (f"Temperature in {city}: {str(temperature)} °C"
            f"\nFeels like {str(temperature_feels)} °C")
-    if len(history) > 0:
+    if has_previous:
         msg += (f"\nLast measurement taken on {last_date}"
-                f"\nDifference since then - {str(diff)} (feels {str(diff_feels)})")
+                f"\nDifference since then: {str(diff)} (feels {str(diff_feels)})")
     print(msg)
 
 
