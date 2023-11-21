@@ -1,10 +1,16 @@
 import os
 
+import pytest
+
 from testability import main, logic
 from tests.conftest import (CITY_NAMES,
                             WEATHER_DATA,
                             HISTORY,
                             MESSAGE)
+
+"""
+Test doubles
+"""
 
 
 def ip_stub():
@@ -36,6 +42,12 @@ def output_mock(message):
     assert message == MESSAGE
 
 
+"""
+Tests
+"""
+
+
+@pytest.mark.quick
 def test_take_measurement(sample_measurement):
     measurement = main.take_measurement(
         ip_stub,
@@ -46,6 +58,7 @@ def test_take_measurement(sample_measurement):
     assert measurement == sample_measurement
 
 
+@pytest.mark.quick
 def test_io(sample_measurement, sample_last_measurement):
     spy = WriteHistorySpy()
     last_measurement = main.io(sample_measurement,
@@ -57,6 +70,7 @@ def test_io(sample_measurement, sample_last_measurement):
     assert last_measurement == sample_last_measurement
 
 
+@pytest.mark.quick
 def test_output(sample_measurement, sample_last_measurement):
     main.output(sample_measurement,
                 sample_last_measurement,

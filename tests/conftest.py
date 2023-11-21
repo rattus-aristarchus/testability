@@ -2,7 +2,7 @@ import pytest
 import dotenv
 import datetime
 
-from testability import logic
+import testability.logic as logic
 
 CITY_NAMES = ["Saint Petersburg", "St Petersburg", "Strel'na"]
 NONEXISTENT_CITY = "Not_a_city_name"
