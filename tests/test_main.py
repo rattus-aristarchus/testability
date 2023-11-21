@@ -23,11 +23,13 @@ def weather_stub(city):
 
 
 def history_stub():
-    return HISTORY
+    return HISTORY.copy()
 
 
-def write_history_stub(history):
-    pass
+class WriteHistorySpy:
+
+    def write(self, history):
+        self.history = history
 
 
 def output_mock(message):
@@ -45,11 +47,13 @@ def test_take_measurement(sample_measurement):
 
 
 def test_io(sample_measurement, sample_last_measurement):
+    spy = WriteHistorySpy()
     last_measurement = main.io(sample_measurement,
                                history_stub,
                                logic.extract_last_measurement,
                                logic.update_history,
-                               write_history_stub)
+                               spy.write)
+    assert len(spy.history) == len(history_stub()) + 1
     assert last_measurement == sample_last_measurement
 
 
