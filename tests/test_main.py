@@ -1,6 +1,7 @@
 import os
 
 import pytest
+import allure
 
 from testability import main, logic
 from tests.conftest import (CITY_NAMES,
@@ -47,6 +48,7 @@ Tests
 """
 
 
+@allure.tag("quick")
 @pytest.mark.quick
 def test_take_measurement(sample_measurement):
     measurement = main.take_measurement(
@@ -58,6 +60,7 @@ def test_take_measurement(sample_measurement):
     assert measurement == sample_measurement
 
 
+@allure.tag("quick")
 @pytest.mark.quick
 def test_io(sample_measurement, sample_last_measurement):
     spy = WriteHistorySpy()
@@ -70,6 +73,7 @@ def test_io(sample_measurement, sample_last_measurement):
     assert last_measurement == sample_last_measurement
 
 
+@allure.tag("quick")
 @pytest.mark.quick
 def test_output(sample_measurement, sample_last_measurement):
     main.output(sample_measurement,
