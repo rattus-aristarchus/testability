@@ -4,6 +4,9 @@ import testability.logic as logic
 from testability.logic import Measurement
 import testability.persistence as persistence
 import testability.web as web
+from testability.ui import UI
+
+ui = UI()
 
 
 def run():
@@ -19,7 +22,7 @@ def run():
     output(measurement,
            last_measurement,
            logic.form_message,
-           print)
+           ui.show_message)
 
 
 def take_measurement(fetch_ip: Callable[[], str],
@@ -53,4 +56,4 @@ def output(measurement: Measurement,
 
 
 if __name__ == '__main__':
-    run()
+    ui.show(run)
