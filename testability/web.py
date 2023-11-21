@@ -12,6 +12,8 @@ def city_ipinfo(ip: str):
 
 
 def city_geolocationdb(ip: str):
+    """Get user's city based on their IP"""
+
     url = 'https://geolocation-db.com/json/' + \
           ip + "&position=true"
     response = requests.get(url).json()
